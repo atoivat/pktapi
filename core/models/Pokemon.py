@@ -1,5 +1,4 @@
 from .PokemonData import PokemonData
-from .Trainer import Trainer
 
 from pydantic import BaseModel
 
@@ -13,7 +12,6 @@ class PokemonCreate(PokemonBase):
     trainer_id: int
 
 class Pokemon(PokemonBase):
-    trainer: Trainer
     data: PokemonData
 
     class Config:

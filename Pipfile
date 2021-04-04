@@ -10,6 +10,7 @@ sqlalchemy = "*"
 async-exit-stack = "*"
 async-generator = "*"
 psycopg2 = "*"
+pyjwt = "*"
 
 [dev-packages]
 
