@@ -11,6 +11,7 @@ async-exit-stack = "*"
 async-generator = "*"
 psycopg2 = "*"
 pyjwt = "*"
+passlib = "*"
 
 [dev-packages]
 
