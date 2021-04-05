@@ -1,13 +1,12 @@
 from typing import List
-
 from pydantic.main import BaseModel
-
 from sqlalchemy.orm.session import Session
 
-from .Pokemon import Pokemon
+from core.models.Pokemon import Pokemon
 
-from ..schemas.Trainer import Trainer as TrainerSchema
-from ..schemas.Pokemon import Pokemon as PokemonSchema
+from core.schemas.Trainer import Trainer as TrainerSchema
+
+from core.services.token import get_password_hash, verify_password
 
 class TrainerBase(BaseModel):
     name: str
@@ -26,36 +25,6 @@ class Trainer(TrainerBase):
 
     class Config:
         orm_mode = True
-
-
-# VVV
-from passlib.context import CryptContext
-from os import environ
-
-SECRET_KEY = environ.get("secretkey")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
-
-def authenticate_user(db: Session, username: str, password: str):
-    user = db.query(TrainerSchema).filter(TrainerSchema.username == username)
-    if not user:
-        return False
-    if not verify_password(password, user.password_hash):
-        return False
-    return user
-
-
-
-# ^^^
 
 
 def get_trainers(db: Session, skip: int = 0, limit: int = 50):
@@ -78,3 +47,11 @@ def create_trainer(db: Session, trainer: TrainerCreate):
     db.commit()
     db.refresh(db_trainer)
     return db_trainer
+
+def authenticate_trainer(db: Session, username: str, password: str):
+    user = get_trainer_by_username(db, username)
+    if not user:
+        return False
+    if not verify_password(password, user.password_hash):
+        return False
+    return user

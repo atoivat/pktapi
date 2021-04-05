@@ -12,6 +12,7 @@ async-generator = "*"
 psycopg2 = "*"
 pyjwt = "*"
 passlib = "*"
+python-multipart = "*"
 
 [dev-packages]
 

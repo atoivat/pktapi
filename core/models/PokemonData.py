@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from pydantic import BaseModel, HttpUrl
 
-from ..schemas.PokemonData import PokemonData as PKDataSchema
+from core.schemas.PokemonData import PokemonData as PKDataSchema
 
 class PokemonData(BaseModel):
     id: int
