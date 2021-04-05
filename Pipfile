@@ -13,6 +13,7 @@ psycopg2 = "*"
 pyjwt = "*"
 passlib = "*"
 python-multipart = "*"
+requests = "*"
 
 [dev-packages]
 
