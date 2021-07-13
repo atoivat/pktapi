@@ -19,7 +19,9 @@ app = FastAPI();
 
 app.include_router(trainers.router)
 
-
+@app.get("/")
+async def healthcheck():
+    return {"status": "OK"}
 
 @app.get("/pokedex", response_model=List[PKDataModel.PokemonData])
 async def read_pokedex(skip: int = 0, limit: int = 50, db: Session = Depends(dep.get_db)) -> List[PKDataModel.PokemonData]:
