@@ -9,7 +9,7 @@ import jwt
 from os import environ
 
 
-SECRET_KEY = environ.get("secretkey")
+SECRET_KEY = environ.get("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

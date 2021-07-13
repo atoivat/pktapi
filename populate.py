@@ -2,6 +2,7 @@ import requests as req
 
 from core.database import SessionLocal
 from core.schemas.PokemonData import PokemonData
+from core.models.PokemonData import get_pkdata_by_id
 
 """ Script to populate "pokemon_data" table on database with data from PokeAPI """
 
@@ -22,6 +23,10 @@ for pokemon in pokemons:
         print(f"Failed to request {pokemon['name'].capitalize()} data from PokeAPI: status", poke_res.status_code)
         break
     poke_info = poke_res.json()
+
+    if get_pkdata_by_id(db, poke_info['id']) is not None:
+        # Pokemon already registred
+        continue
 
     # Request pokemon species info
     poke_species_res = req.get(f"https://pokeapi.co/api/v2/pokemon-species/{poke_info['id']}")
@@ -67,8 +72,9 @@ for pokemon in pokemons:
         if db_pkdata is None:
             raise Exception
     except Exception as e:
-        print(f"Failed to insert {pk_data['name']} data on database. [{e}] Stoping...")
-        break
+        print(f"Failed to insert {pk_data['name']} data on database. [{e}]\nSkiping...")
+        db.rollback()
+        continue
 
     # Print status
     if pk_data['id'] < 151:
