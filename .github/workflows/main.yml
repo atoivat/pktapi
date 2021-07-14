@@ -4,6 +4,14 @@ jobs:
   docker:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      DB: postgresql
+      DB_NAME: pktapi_db
+      DB_USER: postgres
+      DB_PSWD: 123456789
+      DB_HOST: localhost
+      DB_PORT: 5432
+      SECRET_KEY: testing-key
 
     steps:
       - uses: actions/checkout@v2
