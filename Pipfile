@@ -5,18 +5,19 @@ name = "pypi"
 
 [packages]
 fastapi = "*"
-uvicorn = {extras = ["standard"], version = "*"}
+uvicorn = "*"
 sqlalchemy = "*"
-async-exit-stack = "*"
-async-generator = "*"
-psycopg2 = "*"
-pyjwt = "*"
+psycopg2-binary = "*"
 passlib = "*"
+pyjwt = "*"
 python-multipart = "*"
 requests = "*"
-psycopg2-binary = "*"
+pytest = "*"
+python-dotenv = "*"
+bcrypt = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"

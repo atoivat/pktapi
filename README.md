@@ -4,18 +4,6 @@ Project for studying purposes using FastAPI.
 
 # Installing
 
-Make sure you have pipenv installed:
-```sh
-pip install pipenv
-```
-Install dependencies:
-```sh
-pipenv install
-```
-Enter the virtual env.:
-```sh
-pipenv shell
-```
 Make sure your `.env` file is configured with:
 ```
 DB
@@ -33,6 +21,44 @@ SECRET_KEY
 openssl rand -hex 32
 ```
 
+## Install Using Pipenv
+
+Make sure you have pipenv installed:
+```sh
+pip install pipenv
+```
+Install dependencies:
+```sh
+pipenv install
+```
+Enter the virtual env.:
+```sh
+pipenv shell
+```
+Start the server:
+```
+uvicorn app.main:app
+```
+
+## Install Using Docker
+
+Build the docker image
+```
+docker-compose build
+```
+
+Run the containers
+```
+docker-compose up
+```
+
+The server will be listening at [localhost:8000](http://localhost:8000).
+
+Check both `Dockerfile` and `docker-compose.yml` for further documentation.
+
+# Other commands
+
+Other useful commands are specified at `Makefile`.
 
 # Known Issues
 

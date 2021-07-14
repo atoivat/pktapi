@@ -8,6 +8,8 @@ RUN pipenv install --system --deploy
 
 COPY app/ /app/
 COPY core/ /core/
+COPY tests/ /tests/
+
 COPY populate.py /
 COPY setup.sh /
 
