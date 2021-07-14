@@ -3,11 +3,13 @@ from datetime import datetime, timedelta
 
 from passlib.context import CryptContext
 from pydantic.main import BaseModel
-from sqlalchemy.orm.session import Session
 import jwt
 
 from os import environ
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 SECRET_KEY = environ.get("SECRET_KEY")
 ALGORITHM = "HS256"

@@ -1,8 +1,8 @@
-from typing import List, Optional
+from typing import List
 
 from sqlalchemy.orm import Session
 
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 
 from core.schemas.PokemonData import PokemonData as PKDataSchema
 
