@@ -8,4 +8,4 @@ def test_pokedex(client_app):
     response = client_app.get("/pokedex?limit=151")
     assert response.status_code == 200
     res = response.json()
-    assert len(res) == 151
+    assert type(res) == list
