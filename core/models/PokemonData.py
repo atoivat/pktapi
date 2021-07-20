@@ -9,7 +9,7 @@ from core.schemas.PokemonData import PokemonData as PKDataSchema
 class PokemonData(BaseModel):
     id: int
     name: str
-    types: List[str]
+    types: str
     description: str
     weight: int
     sprite: str

@@ -23,6 +23,13 @@ async def get_trainers(
     return TrainerModel.get_trainers(db, skip=skip, limit=limit)
 
 
+@router.get("/me", response_model=TrainerModel.Trainer)
+async def get_current_trainer(
+    trainer: TrainerModel.Trainer = Depends(dep.get_current_trainer),
+) -> TrainerModel.Trainer:
+    return trainer
+
+
 @router.post("/create", response_model=TrainerModel.Trainer)
 async def create_trainer(
     trainer: TrainerModel.TrainerCreate,

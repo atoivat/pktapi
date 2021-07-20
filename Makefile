@@ -8,6 +8,9 @@ build:
 up:
 	docker-compose up -d
 
+db:
+	docker-compose up -d postgres
+
 down:
 	docker-compose down --remove-orphans
 

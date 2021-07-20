@@ -56,6 +56,25 @@ The server will be listening at [localhost:8000](http://localhost:8000).
 
 Check both `Dockerfile` and `docker-compose.yml` for further documentation.
 
+# Testing
+
+You can test inside the container, on the postgres database, using
+```
+docker-compose run --rm --no-deps --entrypoint=pytest app /tests
+```
+
+To test locally using sqlite, add the following line to `.env`:
+```
+TESTING_DB_URL=sqlite:///testing.db
+```
+
+And then everything you run locally (the app or pytest) will use the local sqlite database (`./testing.db`).
+
+> If you consider usefull, you can also run only the postgres database container using
+> ```
+> docker-compose up -d postgres
+> ```
+
 # Other commands
 
 Other useful commands are specified at `Makefile`.

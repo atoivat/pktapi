@@ -26,7 +26,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 async def get_current_trainer(
     db: Session = Depends(get_db),
     token: str = Depends(oauth2_scheme)
-):
+) -> Trainer.Trainer:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

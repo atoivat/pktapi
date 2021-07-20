@@ -23,9 +23,15 @@ app.include_router(trainers.router)
 async def healthcheck():
     return {"status": "OK"}
 
+
 @app.get("/pokedex", response_model=List[PKDataModel.PokemonData])
-async def read_pokedex(skip: int = 0, limit: int = 50, db: Session = Depends(dep.get_db)) -> List[PKDataModel.PokemonData]:
+async def read_pokedex(
+    skip: int = 0,
+    limit: int = 50,
+    db: Session = Depends(dep.get_db)
+) -> List[PKDataModel.PokemonData]:
     return PKDataModel.get_pkdata(db, skip=skip, limit=limit)
+
 
 @app.post("/token", response_model=tk.Token)
 async def login_for_access_token(

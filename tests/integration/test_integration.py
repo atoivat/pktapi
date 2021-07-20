@@ -9,3 +9,11 @@ def test_pokedex(client_app):
     assert response.status_code == 200
     res = response.json()
     assert type(res) == list
+
+def test_token(client_app, trainer):
+    data = {"username": trainer["username"], "password": "1234"}
+    response = client_app.post("/token", data=data)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert type(response_json["access_token"]) is str
+    assert type(response_json["token_type"]) is str

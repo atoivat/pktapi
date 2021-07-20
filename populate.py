@@ -47,21 +47,23 @@ for pokemon in pokemons:
     if description is None:
         print(f"Failed to fetch {pokemon['name'].capitalize()}({poke_info['id']}) description in english from PokeAPI")
     
+    # Format types
+    types = poke_info['types'][0]['type']['name'].capitalize()
+    try:
+        types+= "," + poke_info['types'][1]['type']['name'].capitalize()
+    except:
+        pass
+
     # Format data
     pk_data = {
         "id": poke_info['id'],
         "name": pokemon['name'].capitalize(),
-        "types": [
-            poke_info['types'][0]['type']['name'].capitalize()
-        ],
+        "types": types,
         "description": description,
         "weight": poke_info['weight'],
         "sprite": poke_info['sprites']['front_default']
     }
-    try:
-        pk_data["types"].append(poke_info['types'][1]['type']['name'].capitalize())
-    except:
-        pass
+    
 
     # Save in DB
     try:

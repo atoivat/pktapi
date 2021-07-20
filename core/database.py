@@ -7,18 +7,30 @@ from os import environ
 
 load_dotenv()
 
-DB = environ.get("DB")
-DB_NAME = environ.get("DB_NAME")
-DB_USER = environ.get("DB_USER")
-DB_PSWD = environ.get("DB_PSWD")
-DB_HOST = environ.get("DB_HOST")
-DB_PORT = environ.get("DB_PORT")
+TESTING_DB_URL = environ.get("TESTING_DB_URL")
+if TESTING_DB_URL:
+    # Testing database (sqlite)
+    DATABASE_URL = TESTING_DB_URL
+else:
+    # Production database (postgres)
+    DB = environ.get("DB")
+    DB_NAME = environ.get("DB_NAME")
+    DB_USER = environ.get("DB_USER")
+    DB_PSWD = environ.get("DB_PSWD")
+    DB_HOST = environ.get("DB_HOST")
+    DB_PORT = environ.get("DB_PORT")
 
-SQLALCHEMY_DATABASE_URL = f"{DB}://{DB_USER}:{DB_PSWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    DATABASE_URL = f"{DB}://{DB_USER}:{DB_PSWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
-# print(SQLALCHEMY_DATABASE_URL)
+print(DATABASE_URL)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+if TESTING_DB_URL:
+    # Testing database (sqlite)
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    # Production database (postgres)
+    engine = create_engine(DATABASE_URL)
+
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
