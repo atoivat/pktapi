@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic.main import BaseModel
 from sqlalchemy.orm.session import Session
 
@@ -16,6 +16,10 @@ class TrainerBase(BaseModel):
 
 class TrainerCreate(TrainerBase):
     password: str
+
+class TrainerUpdateIn(BaseModel):
+    name: Optional[str]
+    username: Optional[str]
 
 class TrainerInDB(TrainerBase):
     id: int

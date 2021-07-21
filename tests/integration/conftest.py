@@ -27,3 +27,11 @@ def token(client_app, trainer):
     data = {"username": trainer["username"], "password": "1234"}
     response = client_app.post("/token", data=data)
     return response.json()
+
+@pytest.fixture
+def header(token):
+    access_token = token["access_token"]
+    header = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    return header

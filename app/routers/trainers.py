@@ -30,10 +30,14 @@ async def create_trainer(
 ) -> TrainerModel.Trainer:
     if len(trainer.name.strip()) <= 0 or len(trainer.username.strip()) <= 0:
         raise HTTPException(status_code=400, detail="Empty parameters")
-    
-    same_username_trainer = TrainerModel.get_trainer_by_username(db, trainer.username)
+
+    same_username_trainer = TrainerModel.get_trainer_by_username(
+        db, trainer.username
+    )
     if same_username_trainer:
-        raise HTTPException(status_code=400, detail="Trainer with this username already exists")
+        raise HTTPException(
+            status_code=400, detail="Trainer with this username already exists"
+        )
 
     return TrainerModel.create_trainer(db, trainer)
 
@@ -43,6 +47,22 @@ async def get_current_trainer(
     trainer: TrainerModel.Trainer = Depends(dep.get_current_trainer),
 ) -> TrainerModel.Trainer:
     return trainer
+
+
+@router.put("/me", response_model=TrainerModel.Trainer)
+async def update_current_trainer(
+    update_data: TrainerModel.TrainerUpdateIn,
+    trainer: TrainerModel.Trainer = Depends(dep.get_current_trainer),
+    db: Session = Depends(dep.get_db)
+) -> TrainerModel.Trainer:
+    if update_data.name is not None and len(update_data.name.strip()) > 0:
+        trainer.name = update_data.name.strip()
+    if update_data.username is not None and len(update_data.username.strip()) > 0:
+        trainer.username = update_data.username.strip()
+    db.commit()
+    db.refresh(trainer)
+    return trainer
+
 
 @router.delete("/me", response_model=TrainerModel.TrainerBase)
 async def delete_current_trainer(
