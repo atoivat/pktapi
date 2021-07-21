@@ -18,7 +18,7 @@ def trainer_data(db):
 
 @pytest.fixture
 def trainer(client_app, trainer_data):
-    response = client_app.post("/trainers/create", json=trainer_data)
+    response = client_app.post("/trainers/", json=trainer_data)
     return response.json()
 
 

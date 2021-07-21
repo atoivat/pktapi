@@ -4,12 +4,6 @@ def test_healthcheck(client_app):
     res = response.json()
     assert res["status"] == "OK"
 
-def test_pokedex(client_app):
-    response = client_app.get("/pokedex?limit=151")
-    assert response.status_code == 200
-    res = response.json()
-    assert type(res) == list
-
 def test_token(client_app, trainer):
     data = {"username": trainer["username"], "password": "1234"}
     response = client_app.post("/token", data=data)

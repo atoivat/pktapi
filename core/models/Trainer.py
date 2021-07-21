@@ -11,6 +11,8 @@ from core.services.token import get_password_hash, verify_password
 class TrainerBase(BaseModel):
     name: str
     username: str
+    class Config:
+        orm_mode = True
 
 class TrainerCreate(TrainerBase):
     password: str
@@ -22,9 +24,6 @@ class TrainerInDB(TrainerBase):
 class Trainer(TrainerBase):
     id: int
     team: List[Pokemon] = []
-
-    class Config:
-        orm_mode = True
 
 
 def get_trainers(db: Session, skip: int = 0, limit: int = 50):
