@@ -64,7 +64,9 @@ def test_update_trainer(client_app, header):
     assert response_json["username"] == "testupdate"
 
     # Revert update
-    token_response = client_app.post("/token", data={"username":"testupdate", "password":1234})
+    token_response = client_app.post(
+        "/token", data={"username": "testupdate", "password": 1234}
+    )
     access_token = token_response.json()["access_token"]
     header = {
         "Authorization": f"Bearer {access_token}"
@@ -77,6 +79,14 @@ def test_update_trainer(client_app, header):
     assert response.status_code == 200
 
 
+def test_update_username_already_exists(client_app, header, alt_trainer):
+    new_data = {
+        "username": "test2"
+    }
+    response = client_app.put("/trainers/me", json=new_data, headers=header)
+    assert response.status_code == 400
+
+
 def test_delete_trainer(client_app, header):
     response = client_app.get("/trainers/test")
     assert response.status_code == 200
@@ -86,10 +96,9 @@ def test_delete_trainer(client_app, header):
     response_json = response.json()
     assert response_json["name"] == "Test"
     assert response_json["username"] == "test"
-    
+
     response = client_app.get("/trainers/test")
     assert response.status_code == 404
-
 
 
 def test_get_trainer(client_app, trainer):

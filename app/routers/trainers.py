@@ -58,6 +58,12 @@ async def update_current_trainer(
     if update_data.name is not None and len(update_data.name.strip()) > 0:
         trainer.name = update_data.name.strip()
     if update_data.username is not None and len(update_data.username.strip()) > 0:
+        already_exists = TrainerModel\
+            .get_trainer_by_username(db, update_data.username)
+        if already_exists is not None:
+            raise HTTPException(
+                status_code=400, detail="Trainer with this username already exists"
+            )
         trainer.username = update_data.username.strip()
     db.commit()
     db.refresh(trainer)
