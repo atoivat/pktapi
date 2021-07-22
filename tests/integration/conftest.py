@@ -1,6 +1,7 @@
 import pytest
 
 from core.schemas.Trainer import Trainer
+from core.schemas.Pokemon import Pokemon
 
 
 @pytest.fixture
@@ -53,3 +54,24 @@ def header(token):
         "Authorization": f"Bearer {access_token}"
     }
     return header
+
+
+@pytest.fixture
+def pokemon_data(db):
+    pokemon = {
+        "data_id": 1,
+        "level": 1
+    }
+    yield pokemon
+    db.query(Pokemon)\
+        .filter(Pokemon.data_id == 1)\
+        .delete()
+    db.commit()
+
+
+@pytest.fixture
+def pokemon_in_db(db, client_app, header, pokemon_data):
+    response = client_app.post(
+        "/pokemons/", json=pokemon_data, headers=header
+    )
+    return response.json()

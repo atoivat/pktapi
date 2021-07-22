@@ -1,23 +1,23 @@
 from datetime import timedelta
-from typing import List
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from core.models import PokemonData as PKDataModel, Trainer as TrainerModel
+from core.models import Trainer as TrainerModel
 from core.services import token as tk
 from core.schemas import Pokemon, Trainer, PokemonData
 
 
 from app import dependencies as dep
-from app.routers import pokedex, trainers
+from app.routers import pokedex, trainers, pokemons
 
 
 app = FastAPI()
 
 app.include_router(trainers.router)
 app.include_router(pokedex.router)
+app.include_router(pokemons.router)
 
 
 @app.get("/")
