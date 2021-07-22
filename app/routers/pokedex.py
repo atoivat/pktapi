@@ -8,7 +8,7 @@ from core.models import PokemonData as PKDataModel
 router = APIRouter(
     prefix="/pokedex",
     tags=["pokedex"],
-    responses={404: {"description": "Not Found"}}
+    responses={404: {"detail": "Not Found"}}
 )
 
 
