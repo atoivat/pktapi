@@ -1,3 +1,4 @@
+from re import M
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm.session import Session
@@ -83,4 +84,22 @@ async def update_pokemon(
 
     db.commit()
     db.refresh(pokemon)
+    return pokemon
+
+
+@router.delete("/{id}", response_model=PokemonModel.Pokemon)
+async def delete_pokemon(
+    id: int,
+    trainer: TrainerModel.Trainer = Depends(dep.get_current_trainer),
+    db: Session = Depends(dep.get_db)
+):
+    pokemon = PokemonModel.get_pokemon(db, id)
+    if pokemon is None:
+        raise HTTPException(status_code=404, detail="Pokemon not found")
+    if pokemon.trainer_id != trainer.id:
+        raise HTTPException(status_code=403, detail="Cannot delete this pokemon")
+    
+    db.expire_on_commit = False
+    db.delete(pokemon)
+    db.commit()
     return pokemon

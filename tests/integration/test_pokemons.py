@@ -47,7 +47,7 @@ def test_get_pokemon(client_app, header, pokemon_in_db):
     response_json = response.json()
     assert response_json["trainer"] == "test"
     assert type(response_json["data"]) is dict;
-    assert response_json["data"]["id"] == poke_id
+    assert response_json["data"]["id"] == 1
 
 
 def test_get_pokemon_not_found(client_app, header):
@@ -130,4 +130,26 @@ def test_update_forbidden(client_app, alt_header, pokemon_in_db):
     response = client_app.put(
         f"/pokemons/{poke_id}", json=new_data, headers=alt_header
     )
+    assert response.status_code == 403
+
+
+def test_delete(client_app, header, pokemon_in_db):
+    poke_id = pokemon_in_db["id"]
+    response = client_app.delete(f"/pokemons/{poke_id}", headers=header)
+    assert response.status_code == 200
+    response_json = response.json()
+    assert response_json["id"] == poke_id
+
+    response = client_app.get(f"/pokemons/{poke_id}")
+    assert response.status_code == 404
+
+
+def test_delete_not_found(client_app, header):
+    response = client_app.delete(f"/pokemons/{-1}", headers=header)
+    assert response.status_code == 404
+
+
+def test_delete_forbidden(client_app, alt_header, pokemon_in_db):
+    poke_id = pokemon_in_db["id"]
+    response = client_app.delete(f"/pokemons/{poke_id}", headers=alt_header)
     assert response.status_code == 403
