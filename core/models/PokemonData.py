@@ -23,12 +23,3 @@ def get_pkdata(db: Session, skip: int = 0, limit: int = 50):
 
 def get_pkdata_by_id(db: Session, id: int):
     return db.query(PKDataSchema).filter(PKDataSchema.id==id).first()
-
-# def create_pkdata(db: Session, pkdata: PokemonData):
-#     print(pkdata.dict())
-#     db_pkdata = PKDataSchema(**pkdata.dict())
-#     db.add(db_pkdata)
-#     db.commit()
-#     db.refresh(db_pkdata)
-#     print(db_pkdata)
-#     return db_pkdata

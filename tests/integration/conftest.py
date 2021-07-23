@@ -57,6 +57,18 @@ def header(token):
 
 
 @pytest.fixture
+def alt_header(client_app, alt_trainer):
+    data = {"username": alt_trainer["username"], "password": "1234"}
+    response = client_app.post("/token", data=data)
+    token = response.json()
+    access_token = token["access_token"]
+    header = {
+        "Authorization": f"Bearer {access_token}"
+    }
+    return header    
+
+
+@pytest.fixture
 def pokemon_data(db):
     pokemon = {
         "data_id": 1,

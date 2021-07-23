@@ -16,10 +16,15 @@ class PokemonCreate(PokemonBase):
     data_id: int
 
 class Pokemon(PokemonBase):
+    id: int
     data: PokemonData
 
 class PokemonOut(Pokemon):
     trainer: str
+
+class PokemonUpdateIn(BaseModel):
+    nickname: Optional[str]
+    level: Optional[int]
 
 
 def create_pokemon(db: Session, pokemon: PokemonCreate, trainer_id: int):
@@ -39,10 +44,16 @@ def get_pokemons(db: Session, skip: int = 0, limit: int = 50) -> List[PokemonOut
     pokemons: List[Pokemon] = db.query(PokemonSchema).offset(skip).limit(limit).all()
     return [
         PokemonOut(
+            id=pokemon.id,
             nickname=pokemon.nickname,
             level=pokemon.level, 
             data=pokemon.data, 
-            trainer=pokemon.trainer.name
+            trainer=pokemon.trainer.username
         ) 
         for pokemon in pokemons
     ]
+
+
+def get_pokemon(db: Session, id: int):
+    return db.query(PokemonSchema).filter(PokemonSchema.id == id).first()
+ 
