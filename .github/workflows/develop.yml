@@ -1,0 +1,31 @@
+on:
+  push:
+    branches-ignore:
+      - 'master'
+  pull-request:
+    branches-ignore:
+      - 'master'
+
+jobs:
+  tests:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    env:
+      DB: postgresql
+      DB_NAME: pktapi_db
+      DB_USER: postgres
+      DB_PSWD: 123456789
+      DB_HOST: localhost
+      DB_PORT: 5432
+      SECRET_KEY: testing-key
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: docker-compose build
+      - name: Compose Up
+        run: docker-compose up -d
+      - name: Test
+        run: docker-compose run --rm --no-deps --entrypoint=pytest app /tests
+      - name: Compose Down
+        run: docker-compose down --remove-orphans
