@@ -1,4 +1,6 @@
-FROM python:3.8-buster
+FROM python:3.8-slim
+
+WORKDIR /
 
 RUN pip install pipenv
 
@@ -6,12 +8,11 @@ COPY Pipfile /
 COPY Pipfile.lock /
 RUN pipenv install --system --deploy
 
-COPY app/ /app/
-COPY core/ /core/
-COPY tests/ /tests/
-
 COPY populate.py /
 COPY setup.sh /
 
-WORKDIR /
+COPY core/ /core/
+COPY tests/ /tests/
+COPY app/ /app/
+
 CMD ./setup.sh

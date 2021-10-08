@@ -1,7 +1,10 @@
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  docker:
+  build-test-push:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
@@ -15,11 +18,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Build
-        run: docker-compose build
+      - name: Docker Login
+        run: docker login -u atoivat -p ${{secrets.DOCKER_PASSWORD}}
+      - name: Docker Build
+        run: docker build . -t atoivat/pktapi:$(date +%s)
       - name: Compose Up
         run: docker-compose up -d
       - name: Test
         run: docker-compose run --rm --no-deps --entrypoint=pytest app /tests
       - name: Compose Down
         run: docker-compose down --remove-orphans
+      - name: Docker Push
+        run: docker push atoivat/pktapi --all-tags
