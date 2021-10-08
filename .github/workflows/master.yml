@@ -32,4 +32,4 @@ jobs:
       - name: Compose Down
         run: docker-compose down --remove-orphans
       - name: Docker Push
-        run: docker push atoivat/pktapi
+        run: docker push atoivat/pktapi --all-tags
