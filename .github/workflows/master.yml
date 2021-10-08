@@ -22,9 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Docker Login
-        env:
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: docker login -u atoivat -p DOCKER_PASSWORD
+        run: docker login -u atoivat -p ${{secrets.DOCKER_PASSWORD}}
       - name: Docker Build
         run: docker build . -t atoivat/pktapi:$(date +%s)
       - name: Compose Up
