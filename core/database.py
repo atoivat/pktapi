@@ -31,8 +31,8 @@ if TESTING_DB_URL:
 
     # Code to trigger foreign key checks on sqlite
     @event.listens_for(engine, "connect")
-    def set_sqlite_pragma(dbapi_connection, connection_record):
-        cursor = dbapi_connection.cursor()
+    def set_sqlite_pragma(connection, *args):
+        cursor = connection.cursor()
         cursor.execute("PRAGMA foreign_keys=ON")
         cursor.close()
 

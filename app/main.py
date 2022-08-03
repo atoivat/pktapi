@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from core.models import Trainer as TrainerModel
@@ -14,6 +15,15 @@ from app.routers import pokedex, trainers, pokemons
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 
 app.include_router(trainers.router)
 app.include_router(pokedex.router)
